@@ -1,0 +1,17 @@
+header {
+    color: white;
+    background: gray;
+    padding: 30px;
+    text-align: center;
+
+}
+
+body {
+    color: black;
+    background: white;
+}
+
+footer {
+    color: white;
+    background: gray;
+}
