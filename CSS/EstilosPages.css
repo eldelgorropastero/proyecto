@@ -48,6 +48,8 @@ hr {
     justify-content: center;
 }
 
-.card {
-    margin: 10px;
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
