@@ -17,6 +17,9 @@ class UsuarioSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class CompraSerializer(serializers.ModelSerializer):
+    usuario = UsuarioSerializer()
+    libro = LibroSerializer()
+    
     class Meta:
         model = Compra
         fields = '__all__'

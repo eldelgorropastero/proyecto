@@ -1,29 +1,48 @@
-function submitUsuarioForm(event) {
-    event.preventDefault();
-    
-    let formData = {
-        nombreApellido: document.getElementById('nombreApellido').value,
-        email: document.getElementById('email').value,
-        telefono: document.getElementById('telefono').value,
-    };
+$(document).ready(function () {
+    function cargarUsuarios() {
+        $.ajax({
+            url: 'http://localhost:8000/BiblioOnline/usuario/',
+            type: 'GET',
+            success: function (data) {
+                var tableRows = '';
+                data.forEach(function (usuario) {
+                    tableRows += '<tr>';
+                    tableRows += '<td>' + usuario.nombre_apellido + '</td>';
+                    tableRows += '<td>' + usuario.email + '</td>';
+                    tableRows += '<td>' + usuario.telefono + '</td>';
+                    tableRows += '</tr>';
+                });
+                $('#usuariosTableBody').html(tableRows);
+            },
+            error: function (error) {
+                console.log('Error al cargar usuarios:', error);
+            }
+        });
+    }
 
-    // Realizar la petición POST al endpoint de Usuario
-    fetch('http://127.0.0.1:8000/BiblioOnline/usuario/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Usuario creado:', data);
-        // Aquí podrías actualizar la tabla de usuarios registrados o realizar otra acción
-    })
-    .catch(error => {
-        console.error('Error al crear usuario:', error);
+    cargarUsuarios();
+
+    $("#usuarioForm").validate({
+        submitHandler: function (form) {
+            var data = {
+                nombre_apellido: $("#nombre_apellido").val(),
+                email: $("#email").val(),
+                telefono: $("#telefono").val()
+            };
+            $.ajax({
+                url: 'http://localhost:8000/BiblioOnline/usuario/',
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                success: function (response) {
+                    alert('Usuario registrado correctamente');
+                    cargarUsuarios();
+                },
+                error: function (error) {
+                    console.log('Error al registrar usuario:', error);
+                    alert('Error al registrar usuario');
+                }
+            });
+        }
     });
-}
-
-// Escuchar el evento de submit del formulario
-document.getElementById('usuarioForm').addEventListener('submit', submitUsuarioForm);
+});

@@ -103,13 +103,13 @@
                 <div class="form-group">
                     <label for="nombre">Nombre:</label>
                     <input type="text" class="form-control" id="nombre" name="nombre" required><br>
-            
+
                     <label for="nacionalidad">Nacionalidad:</label>
                     <input type="text" class="form-control" id="nacionalidad" name="nacionalidad" required><br>
-                    
+
                     <label for="fechaNacimiento">Fecha de nacimiento:</label>
                     <input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento" required><br>
-                    
+
                     <button type="submit" class="btn btn-primary btn-block">Registrar Autor</button>
                 </div>
             </form><br>
@@ -126,63 +126,67 @@
                 <tbody id="autoresTableBody">
                     <!-- Aquí se cargarán dinámicamente los autores -->
                 </tbody>
-            </table>            
+            </table>
             <!-- Termino Formulario Autor -->
             <hr><hr>
             <!-- Inicio Formulario Libro -->
-            <h3>Añadir nuevo Libro</h3>
+            <!-- Inicio Formulario Libro -->
+            <h3>Crear Libro</h3>
             <form id="libroForm" class="mt-4">
                 <div class="form-group">
                     <label for="titulo">Título:</label>
                     <input type="text" class="form-control" id="titulo" name="titulo" required><br>
-            
-                    <label for="fechaPublicacion">Fecha de publicación:</label>
-                    <input type="date" class="form-control" id="fechaPublicacion" name="fechaPublicacion" required><br>
-            
-                    <label for="autores">Autores:</label>
-                    <input type="text" class="form-control" id="autores" name="autores" required><br>
-            
+                    
+                    <label for="fecha_de_publicacion">Fecha de publicación:</label>
+                    <input type="date" class="form-control" id="fecha_de_publicacion" name="fecha_de_publicacion" required><br>
+
                     <label for="genero">Género:</label>
                     <input type="text" class="form-control" id="genero" name="genero" required><br>
-            
+                    
+                    <label for="autores">Autores:</label>
+                    <select multiple class="form-control" id="autores" name="autores[]" required>
+                        <!-- Aquí se cargarán dinámicamente los autores -->
+                    </select><br>
+                    
                     <button type="submit" class="btn btn-primary btn-block">Registrar Libro</button>
                 </div>
-            </form>
+            </form><br>
             <hr>
-            <h3>Registro de nuevos Libros</h3>
+            <h3>Libros Registrados</h3>
             <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>Título</th>
                         <th>Fecha de publicación</th>
-                        <th>Autores</th>
                         <th>Género</th>
+                        <th>Autores</th>
                     </tr>
                 </thead>
                 <tbody id="librosTableBody">
                     <!-- Aquí se cargarán dinámicamente los libros -->
                 </tbody>
-            </table>            
+            </table>
+            <!-- Termino Formulario Libro -->
             <!-- Termino Formulario Libro -->
              <hr><hr>
             <!-- Inicio Formulario Usuario -->
-            <h3>Crear un nuevo usuario</h3>
+            <h3>Crear Usuario</h3>
             <form id="usuarioForm" class="mt-4">
                 <div class="form-group">
-                    <label for="nombreApellido">Nombre y Apellido:</label>
-                    <input type="text" class="form-control" id="nombreApellido" name="nombreApellido" required><br>
-            
+                    <label for="nombre_apellido">Nombre y Apellido:</label>
+                    <input type="text" class="form-control" id="nombre_apellido" name="nombre_apellido" required><br>
+
                     <label for="email">Email:</label>
                     <input type="email" class="form-control" id="email" name="email" required><br>
-            
+
                     <label for="telefono">Teléfono:</label>
-                    <input type="tel" class="form-control" id="telefono" name="telefono" required><br>
-            
+                    <input type="text" class="form-control" id="telefono" name="telefono" required><br>
+
                     <button type="submit" class="btn btn-primary btn-block">Registrar Usuario</button>
                 </div>
-            </form>
+            </form><br>
             <hr>
-            <h3>Registro de Usuarios</h3>
+            <h3>Usuarios Registrados</h3>
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -194,38 +198,43 @@
                 <tbody id="usuariosTableBody">
                     <!-- Aquí se cargarán dinámicamente los usuarios -->
                 </tbody>
-            </table>            
+            </table>
             <!-- Termino Formulario Usuario -->
             <hr><hr>
             <!-- Inicio Formulario Compra -->
-            <h3>Crear una nueva compra</h3>
+            <h3>Registrar Compra</h3>
             <form id="compraForm" class="mt-4">
                 <div class="form-group">
                     <label for="usuario">Usuario:</label>
-                    <input type="text" class="form-control" id="usuario" name="usuario" required><br>
-            
+                    <select class="form-control" id="usuario" name="usuario" required>
+                        <!-- Aquí se cargarán dinámicamente los usuarios -->
+                    </select><br>
+
                     <label for="libro">Libro:</label>
-                    <input type="text" class="form-control" id="libro" name="libro" required><br>
-            
-                    <label for="fechaCompra">Fecha de compra:</label>
-                    <input type="date" class="form-control" id="fechaCompra" name="fechaCompra" required><br>
-            
+                    <select class="form-control" id="libro" name="libro" required>
+                        <!-- Aquí se cargarán dinámicamente los libros -->
+                    </select><br>
+
+                    <label for="fecha_compra">Fecha de Compra:</label>
+                    <input type="date" class="form-control" id="fecha_compra" name="fecha_compra" required><br>
+
                     <button type="submit" class="btn btn-primary btn-block">Registrar Compra</button>
                 </div>
-            </form>
-            <h3>Registros de las compras</h3>
+            </form><br>
+            <hr>
+            <h3>Compras Registradas</h3>
             <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>Usuario</th>
                         <th>Libro</th>
-                        <th>Fecha de compra</th>
+                        <th>Fecha de Compra</th>
                     </tr>
                 </thead>
                 <tbody id="comprasTableBody">
                     <!-- Aquí se cargarán dinámicamente las compras -->
                 </tbody>
-            </table>            
+            </table>
             <!-- Termino Formulario Compra -->
         </div>
     </main>

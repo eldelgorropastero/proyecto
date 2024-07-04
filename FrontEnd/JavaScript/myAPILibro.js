@@ -1,31 +1,68 @@
-function submitLibroForm(event) {
-    event.preventDefault();
-    
-    let autores = document.getElementById('autores').value.split(',').map(item => item.trim());
-    let formData = {
-        titulo: document.getElementById('titulo').value,
-        fechaPublicacion: document.getElementById('fechaPublicacion').value,
-        autores: autores,
-        genero: document.getElementById('genero').value,
-    };
+$(document).ready(function () {
+    function cargarAutores() {
+        $.ajax({
+            url: 'http://localhost:8000/BiblioOnline/autor/',
+            type: 'GET',
+            success: function (data) {
+                var options = '';
+                data.forEach(function (autor) {
+                    options += '<option value="' + autor.id + '">' + autor.nombre + '</option>';
+                });
+                $('#autores').html(options);
+            },
+            error: function (error) {
+                console.log('Error al cargar autores:', error);
+            }
+        });
+    }
 
-    // Realizar la petición POST al endpoint de Libro
-    fetch('http://127.0.0.1:8000/BiblioOnline/libro/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Libro creado:', data);
-        // Aquí podrías actualizar la tabla de libros registrados o realizar otra acción
-    })
-    .catch(error => {
-        console.error('Error al crear libro:', error);
+    function cargarLibros() {
+        $.ajax({
+            url: 'http://localhost:8000/BiblioOnline/libro/',
+            type: 'GET',
+            success: function (data) {
+                var tableRows = '';
+                data.forEach(function (libro) {
+                    tableRows += '<tr>';
+                    tableRows += '<td>' + libro.titulo + '</td>';
+                    tableRows += '<td>' + libro.fecha_de_publicacion + '</td>';
+                    tableRows += '<td>' + libro.genero + '</td>';
+                    tableRows += '<td>' + libro.autores.map(function(autor) { return autor.nombre }).join(', ') + '</td>';
+                    tableRows += '</tr>';
+                });
+                $('#librosTableBody').html(tableRows);
+            },
+            error: function (error) {
+                console.log('Error al cargar libros:', error);
+            }
+        });
+    }
+
+    cargarAutores();
+    cargarLibros();
+
+    $("#libroForm").validate({
+        submitHandler: function (form) {
+            var data = {
+                titulo: $("#titulo").val(),
+                fecha_de_publicacion: $("#fecha_de_publicacion").val(),
+                genero: $("#genero").val(),
+                autores: $("#autores").val() // Obtiene los valores seleccionados del select de autores
+            };
+            $.ajax({
+                url: 'http://localhost:8000/BiblioOnline/libro/',
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                success: function (response) {
+                    alert('Libro registrado correctamente');
+                    cargarLibros();
+                },
+                error: function (error) {
+                    console.log('Error al registrar libro:', error);
+                    alert('Error al registrar libro');
+                }
+            });
+        }
     });
-}
-
-// Escuchar el evento de submit del formulario
-document.getElementById('libroForm').addEventListener('submit', submitLibroForm);
+});

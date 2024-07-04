@@ -1,29 +1,48 @@
-function submitAutorForm(event) {
-    event.preventDefault();
-    
-    let formData = {
-        nombre: document.getElementById('nombre').value,
-        nacionalidad: document.getElementById('nacionalidad').value,
-        fechaNacimiento: document.getElementById('fechaNacimiento').value,
-    };
+$(document).ready(function () {
+    function cargarAutores() {
+        $.ajax({
+            url: 'http://localhost:8000/BiblioOnline/autor/',
+            type: 'GET',
+            success: function (data) {
+                var tableRows = '';
+                data.forEach(function (autor) {
+                    tableRows += '<tr>';
+                    tableRows += '<td>' + autor.nombre + '</td>';
+                    tableRows += '<td>' + autor.nacionalidad + '</td>';
+                    tableRows += '<td>' + autor.fecha_de_nacimiento + '</td>';
+                    tableRows += '</tr>';
+                });
+                $('#autoresTableBody').html(tableRows);
+            },
+            error: function (error) {
+                console.log('Error al cargar autores:', error);
+            }
+        });
+    }
 
-    // Realizar la petición POST al endpoint de Autor
-    fetch('http://127.0.0.1:8000/BiblioOnline/autor/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Autor creado:', data);
-        // Aquí podrías actualizar la tabla de autores registrados o realizar otra acción
-    })
-    .catch(error => {
-        console.error('Error al crear autor:', error);
+    cargarAutores();
+
+    $("#autorForm").validate({
+        submitHandler: function (form) {
+            var data = {
+                nombre: $("#nombre").val(),
+                nacionalidad: $("#nacionalidad").val(),
+                fecha_de_nacimiento: $("#fechaNacimiento").val()
+            };
+            $.ajax({
+                url: 'http://localhost:8000/BiblioOnline/autor/',
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                success: function (response) {
+                    alert('Autor registrado correctamente');
+                    cargarAutores();
+                },
+                error: function (error) {
+                    console.log('Error al registrar autor:', error);
+                    alert('Error al registrar autor');
+                }
+            });
+        }
     });
-}
-
-// Escuchar el evento de submit del formulario
-document.getElementById('autorForm').addEventListener('submit', submitAutorForm);
+});
